@@ -3,7 +3,7 @@ AlayaCare iOS Swift skill test
 
 
 ### What's included
-The repo contains a skeleton iOS application created using XCode 8.3.2. The app contains:
+The repo contains a skeleton iOS application created using XCode 8.3.2. The app contains a couple of empty files to start you off:
 * NoteController: An empty activity to display a list of notes. 
 * NoteModel: An empty data model to represent a note entity. 
 * Main.storyboard: A storyboard containing an empty view for the note controller
@@ -20,11 +20,12 @@ The repo contains a skeleton iOS application created using XCode 8.3.2. The app 
 ### Instructions
 The goal of this exercise is to create a very simple note app by following the tasks below. 
 Code should be clear, easy to read, and modular. 
-First fork this repository, then commit your changes and create a pull request when you're done (See [How to submit your work?](#how-to-submit-your-work))
+First fork this repository, then commit your changes and create a pull request when you're done (See [How to submit your work?](#how-to-submit-your-work)). 
+The provided files can be used as a guideline, but add whatever other files you need.
 
 * TASK 1: Create a data source for the notes:
-  * Add non-null `text` and non-null `date` fields to the note model
-  * Create a mock API to return a list of fake notes asynchronously
+  * create a note model that can capture the text entered by a user and the date the user created the note
+  * create a mock API to return a list of fake notes asynchronously
 
 * TASK 2: Display a table of notes in the note controller:
   * use the mock API to populate the list
@@ -39,10 +40,10 @@ First fork this repository, then commit your changes and create a pull request w
 * Task 4: Add search functionality to your list of notes:
   * search should support matching to any part of the note text
 
-* OPTIONAL Task 5: Save and delete notes
+* OPTIONAL Task 5: Save, edit and delete notes
   * use CoreData to persist the notes
   * remove your mock API and save new notes to CoreData
-  * add an option to delete a note from the list
+  * add an option to edit and delete a note from the list
 
 
 ### How to submit your work?
