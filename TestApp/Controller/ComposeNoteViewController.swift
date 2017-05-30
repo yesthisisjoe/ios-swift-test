@@ -20,25 +20,23 @@ class ComposeNoteViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if composeMode == .edit,
-            let existingNote = existingNote {
-            textView.text = existingNote.text
-            title = "Edit Note"
-        } else {
+        switch composeMode! {
+        case .create:
             saveButton.isEnabled = false
             title = "Create Note"
+        case .edit:
+            textView.text = existingNote!.text
+            title = "Edit Note"
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         textView.becomeFirstResponder()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
         textView.resignFirstResponder()
     }
     

@@ -16,6 +16,11 @@ class NoteListViewController: UIViewController {
     fileprivate var noteModelController = NoteModelController()
     fileprivate var noteSearchResults = [NoteModel]()
     
+    fileprivate var searchBarIsActive: Bool {
+        return searchController.isActive &&
+            !searchController.searchBar.text!.isEmpty
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -26,6 +31,14 @@ class NoteListViewController: UIViewController {
         searchController.dimsBackgroundDuringPresentation = false
         definesPresentationContext = true
         tableView.tableHeaderView = searchController.searchBar
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if let indexPath = tableView.indexPathForSelectedRow {
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -52,12 +65,12 @@ class NoteListViewController: UIViewController {
     
     @IBAction func cancelComposeNote(_ segue: UIStoryboardSegue) {}
     
+    // Helper method for retrieving a note based whether or not we are viewing search results
     func getNoteAt(indexPath: IndexPath) -> NoteModel {
-        if searchController.isActive &&
-            !searchController.searchBar.text!.isEmpty {
-            return noteModelController.notes[indexPath.row]
-        } else {
+        if searchBarIsActive {
             return noteSearchResults[indexPath.row]
+        } else {
+            return noteModelController.notes[indexPath.row]
         }
     }
 }
@@ -65,8 +78,7 @@ class NoteListViewController: UIViewController {
 extension NoteListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if searchController.isActive &&
-            !searchController.searchBar.text!.isEmpty {
+        if searchBarIsActive {
             return noteSearchResults.count
         } else {
             return noteModelController.notes.count
@@ -79,6 +91,7 @@ extension NoteListViewController: UITableViewDataSource {
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .long
+        dateFormatter.timeStyle = .short
         let dateString = dateFormatter.string(from: note.dateCreated)
         
         cell.dateLabel?.text = dateString

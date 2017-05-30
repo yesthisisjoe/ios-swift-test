@@ -15,12 +15,14 @@ class NoteModelController {
     fileprivate var managedContext: NSManagedObjectContext
 
     
-    /// Initialize notes from persistent storage
+    /// Initialize notes in chronological order from persistent storage
     init() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         managedContext = appDelegate.persistentContainer.viewContext
         
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Note")
+        let sortDescriptor = NSSortDescriptor(key: "dateCreated", ascending: false)
+        fetchRequest.sortDescriptors = [sortDescriptor]
         
         do {
             let noteManagedObjects = try managedContext.fetch(fetchRequest)
@@ -42,7 +44,7 @@ class NoteModelController {
         
         do {
             try managedContext.save()
-            notes.append(note)
+            notes.insert(note, at: 0)
         } catch let error as NSError {
             print("Could not save new note to persistent storage. \(error), \(error.userInfo)")
         }
