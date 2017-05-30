@@ -23,9 +23,17 @@ class ComposeNoteViewController: UIViewController {
         if composeMode == .edit,
             let existingNote = existingNote {
             textView.text = existingNote.text
+            title = "Edit Note"
         } else {
             saveButton.isEnabled = false
+            title = "Create Note"
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        textView.becomeFirstResponder()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
