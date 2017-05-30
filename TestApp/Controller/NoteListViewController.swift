@@ -10,26 +10,53 @@ import UIKit
 
 class NoteListViewController: UIViewController {
 
+    @IBOutlet weak var tableView: UITableView!
+    
+    fileprivate var noteModelController = NoteModelController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        switch segue.identifier! {
+        case "CreateNote":
+            if let navigationController = segue.destination as? UINavigationController,
+                let composeNoteViewController = navigationController.viewControllers.first as? ComposeNoteViewController {
+                composeNoteViewController.noteModelController = noteModelController
+            }
+        case "EditNote":
+            break // TODO: this
+        default: break
+        }
     }
-    */
+    
+    @IBAction func saveNote(_ segue: UIStoryboardSegue) {
+        tableView.reloadData()
+    }
+    
+    @IBAction func cancelComposeNote(_ segue: UIStoryboardSegue) {}
+}
 
+extension NoteListViewController: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return noteModelController.notes.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let note = noteModelController.notes[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: "NoteCell") as! NoteTableViewCell
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .long
+        let dateString = dateFormatter.string(from: note.dateCreated)
+        
+        cell.dateLabel?.text = dateString
+        cell.noteTextLabel?.text = note.text
+        
+        return cell
+    }
+    
 }

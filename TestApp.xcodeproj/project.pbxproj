@@ -16,6 +16,7 @@
 		D88B9AE91EDCC69E00BAA4C7 /* NoteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88B9AE81EDCC69E00BAA4C7 /* NoteTableViewCell.swift */; };
 		D88B9AEB1EDCCA9200BAA4C7 /* NoteListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88B9AEA1EDCCA9200BAA4C7 /* NoteListViewController.swift */; };
 		D88B9AED1EDCCC4400BAA4C7 /* ComposeNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88B9AEC1EDCCC4400BAA4C7 /* ComposeNoteViewController.swift */; };
+		D88B9B111EDCF37A00BAA4C7 /* NoteModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88B9B101EDCF37A00BAA4C7 /* NoteModelController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		D88B9AE81EDCC69E00BAA4C7 /* NoteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteTableViewCell.swift; sourceTree = "<group>"; };
 		D88B9AEA1EDCCA9200BAA4C7 /* NoteListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteListViewController.swift; sourceTree = "<group>"; };
 		D88B9AEC1EDCCC4400BAA4C7 /* ComposeNoteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComposeNoteViewController.swift; sourceTree = "<group>"; };
+		D88B9B101EDCF37A00BAA4C7 /* NoteModelController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NoteModelController.swift; path = ModelController/NoteModelController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,7 +64,8 @@
 		8429C9C51EAECCA8004A5E2B /* TestApp */ = {
 			isa = PBXGroup;
 			children = (
-				8429C9DB1EAECD0B004A5E2B /* Controller */,
+				8429C9DB1EAECD0B004A5E2B /* View Controller */,
+				D88B9B0F1EDCF34900BAA4C7 /* Model Controller */,
 				8429C9DC1EAECD0B004A5E2B /* Model */,
 				8429C9DD1EAECD0B004A5E2B /* View */,
 				8429C9C61EAECCA8004A5E2B /* AppDelegate.swift */,
@@ -74,12 +77,13 @@
 			path = TestApp;
 			sourceTree = "<group>";
 		};
-		8429C9DB1EAECD0B004A5E2B /* Controller */ = {
+		8429C9DB1EAECD0B004A5E2B /* View Controller */ = {
 			isa = PBXGroup;
 			children = (
 				D88B9AEA1EDCCA9200BAA4C7 /* NoteListViewController.swift */,
 				D88B9AEC1EDCCC4400BAA4C7 /* ComposeNoteViewController.swift */,
 			);
+			name = "View Controller";
 			path = Controller;
 			sourceTree = "<group>";
 		};
@@ -98,6 +102,14 @@
 				D88B9AE81EDCC69E00BAA4C7 /* NoteTableViewCell.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		D88B9B0F1EDCF34900BAA4C7 /* Model Controller */ = {
+			isa = PBXGroup;
+			children = (
+				D88B9B101EDCF37A00BAA4C7 /* NoteModelController.swift */,
+			);
+			name = "Model Controller";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -179,6 +191,7 @@
 				D88B9AED1EDCCC4400BAA4C7 /* ComposeNoteViewController.swift in Sources */,
 				D88B9AEB1EDCCA9200BAA4C7 /* NoteListViewController.swift in Sources */,
 				8429C9E41EAECD48004A5E2B /* NoteModel.swift in Sources */,
+				D88B9B111EDCF37A00BAA4C7 /* NoteModelController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

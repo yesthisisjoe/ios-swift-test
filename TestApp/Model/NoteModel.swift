@@ -5,6 +5,7 @@
 //
 
 import Foundation
+import CoreData
 
 class NoteModel {
     
@@ -15,5 +16,11 @@ class NoteModel {
         self.text = text
         self.dateCreated = Date()
     }
+    
+    init(managedObject: NSManagedObject) {
+        self.text = managedObject.value(forKeyPath: "text") as! String
+        self.dateCreated = managedObject.value(forKeyPath: "dateCreated") as! Date
+    }
+
     
 }
