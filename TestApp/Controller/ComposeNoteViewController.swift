@@ -14,6 +14,19 @@ class ComposeNoteViewController: UIViewController {
     @IBOutlet weak var textView: UITextView!
     
     var noteModelController: NoteModelController!
+    var composeMode: ComposeMode!
+    var existingNote: NoteModel?
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        if composeMode == .edit,
+            let existingNote = existingNote {
+            textView.text = existingNote.text
+        } else {
+            saveButton.isEnabled = false
+        }
+    }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -25,8 +38,16 @@ class ComposeNoteViewController: UIViewController {
         guard segue.identifier == "SaveNote" else {
             return
         }
-        let note = NoteModel(text: textView.text)
-        noteModelController.add(note)
+        
+        switch composeMode! {
+        case .create:
+            let note = NoteModel(text: textView.text)
+            noteModelController.add(note)
+        case .edit:
+            existingNote!.text = textView.text
+            let existingNoteIndex = noteModelController.notes.index(of: existingNote!)!
+            noteModelController.update(existingNoteIndex, newText: textView.text)
+        }
     }
 }
 
@@ -37,4 +58,9 @@ extension ComposeNoteViewController: UITextViewDelegate {
         saveButton.isEnabled = !textView.text.isEmpty
     }
     
+}
+
+enum ComposeMode {
+    case create
+    case edit
 }

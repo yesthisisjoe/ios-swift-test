@@ -22,15 +22,20 @@ class NoteListViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier! {
-        case "CreateNote":
-            if let navigationController = segue.destination as? UINavigationController,
-                let composeNoteViewController = navigationController.viewControllers.first as? ComposeNoteViewController {
-                composeNoteViewController.noteModelController = noteModelController
+        if let navigationController = segue.destination as? UINavigationController,
+            let composeNoteViewController = navigationController.viewControllers.first as? ComposeNoteViewController {
+            composeNoteViewController.noteModelController = noteModelController
+            
+            switch segue.identifier! {
+            case "CreateNote":
+                composeNoteViewController.composeMode = .create
+            case "EditNote":
+                let note = noteModelController.notes[tableView.indexPathForSelectedRow!.row]
+                composeNoteViewController.composeMode = .edit
+                composeNoteViewController.existingNote = note
+            default: break
             }
-        case "EditNote":
-            break // TODO: this
-        default: break
+            
         }
     }
     

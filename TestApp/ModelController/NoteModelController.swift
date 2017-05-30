@@ -14,6 +14,7 @@ class NoteModelController {
     fileprivate(set) var notes: [NoteModel] = []
     fileprivate var managedContext: NSManagedObjectContext
 
+    
     /// Initialize notes from persistent storage
     init() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -29,7 +30,8 @@ class NoteModelController {
         }
     }
     
-    /// Add a new note to notes & persistent storage
+    
+    /// Add a new note
     ///
     /// - Parameter note: The note to be added
     func add(_ note: NoteModel) {
@@ -46,38 +48,70 @@ class NoteModelController {
         }
     }
     
-    /// Updates the text of an existing note (doesn't change the created date)
+    
+    /// Update the text of an existing note (without changing the created date)
     ///
     /// - Parameters:
-    ///   - note: The note to be updated
+    ///   - index: The index of the note to be updated
     ///   - newText: The note's new text
     func update(_ index: Int, newText: String) {
+        guard let managedObjectToUpdate = getManagedObjectForNoteAt(index) else {
+            print("Could not retrieve managed object to update.")
+            return
+        }
         
+        do {
+            managedObjectToUpdate.setValue(newText, forKey: "text")
+            try managedContext.save()
+            
+            notes[index].text = newText
+        } catch let error as NSError {
+            print("Could not update note from persistent storage. \(error), \(error.userInfo)")
+        }
     }
     
-    /// Deletes the note at the specified index
+    
+    /// Delete the note at the specified index
     ///
     /// - Parameter index: The index of the note to be deleted
     func delete(_ index: Int) {
+        guard let managedObjectToDelete = getManagedObjectForNoteAt(index) else {
+            print("Could not retrieve managed object to delete.")
+            return
+        }
+        
+        do {
+            managedContext.delete(managedObjectToDelete)
+            try managedContext.save()
+            
+            notes.remove(at: index)
+        } catch let error as NSError {
+            print("Could not delete note from persistent storage. \(error), \(error.userInfo)")
+        }
+    }
+    
+    
+    /// Retrieve the managed object for the note at the given index from persistent storage
+    ///
+    /// - Parameter index: Index of the note to retrieve
+    /// - Returns: The managed object for the note at the given index
+    fileprivate func getManagedObjectForNoteAt(_ index: Int) -> NSManagedObject? {
         let note = notes[index]
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Note")
         let predicate = NSPredicate(format: "dateCreated == %@", note.dateCreated as CVarArg)
         fetchRequest.predicate = predicate
         
         do {
-            let managedObjectsToDelete = try managedContext.fetch(fetchRequest)
+            let managedObjects = try managedContext.fetch(fetchRequest)
             
-            guard managedObjectsToDelete.count == 1 else {
-                print("Error retrieving note to delete.")
-                return
+            guard managedObjects.count == 1 else {
+                return nil
             }
             
-            managedContext.delete(managedObjectsToDelete[0])
-            try managedContext.save()
-            
-            notes.remove(at: index)
+            return managedObjects[0]
         } catch let error as NSError {
-            print("Could not delete note from persistent storage. \(error), \(error.userInfo)")
+            print("Error retrieving . \(error), \(error.userInfo)")
+            return nil
         }
     }
 }

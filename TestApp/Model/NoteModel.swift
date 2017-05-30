@@ -21,3 +21,11 @@ class NoteModel {
         self.dateCreated = managedObject.value(forKeyPath: "dateCreated") as! Date
     }
 }
+
+extension NoteModel: Equatable {
+    static func == (lhs: NoteModel, rhs: NoteModel) -> Bool {
+        return
+            lhs.text == rhs.text &&
+            lhs.dateCreated == rhs.dateCreated
+    }
+}
