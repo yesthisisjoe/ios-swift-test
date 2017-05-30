@@ -70,8 +70,7 @@ extension NoteListViewController: UITableViewDataSource {
             return
         }
         
-        let noteToDelete = noteModelController.notes[indexPath.row]
-        noteModelController.delete(noteToDelete)
-        tableView.reloadData()
+        noteModelController.delete(indexPath.row)
+        tableView.deleteRows(at: [indexPath], with: .automatic)
     }
 }

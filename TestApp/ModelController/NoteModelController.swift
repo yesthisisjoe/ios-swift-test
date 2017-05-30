@@ -14,6 +14,7 @@ class NoteModelController {
     fileprivate(set) var notes: [NoteModel] = []
     fileprivate var managedContext: NSManagedObjectContext
 
+    /// Initialize notes from persistent storage
     init() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         managedContext = appDelegate.persistentContainer.viewContext
@@ -28,6 +29,9 @@ class NoteModelController {
         }
     }
     
+    /// Add a new note to notes & persistent storage
+    ///
+    /// - Parameter note: The note to be added
     func add(_ note: NoteModel) {
         let entity = NSEntityDescription.entity(forEntityName: "Note", in: managedContext)!
         let noteManagedObject = NSManagedObject(entity: entity, insertInto: managedContext)
@@ -42,11 +46,38 @@ class NoteModelController {
         }
     }
     
-    func update(_ note: NoteModel, newText: String) {
+    /// Updates the text of an existing note (doesn't change the created date)
+    ///
+    /// - Parameters:
+    ///   - note: The note to be updated
+    ///   - newText: The note's new text
+    func update(_ index: Int, newText: String) {
         
     }
     
-    func delete(_ note: NoteModel) {
+    /// Deletes the note at the specified index
+    ///
+    /// - Parameter index: The index of the note to be deleted
+    func delete(_ index: Int) {
+        let note = notes[index]
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Note")
+        let predicate = NSPredicate(format: "dateCreated == %@", note.dateCreated as CVarArg)
+        fetchRequest.predicate = predicate
         
+        do {
+            let managedObjectsToDelete = try managedContext.fetch(fetchRequest)
+            
+            guard managedObjectsToDelete.count == 1 else {
+                print("Error retrieving note to delete.")
+                return
+            }
+            
+            managedContext.delete(managedObjectsToDelete[0])
+            try managedContext.save()
+            
+            notes.remove(at: index)
+        } catch let error as NSError {
+            print("Could not delete note from persistent storage. \(error), \(error.userInfo)")
+        }
     }
 }
