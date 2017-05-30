@@ -25,7 +25,7 @@ class NoteListViewController: UIViewController {
         super.viewDidLoad()
         
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 200
+        tableView.estimatedRowHeight = 100
         
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
