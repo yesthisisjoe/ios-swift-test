@@ -12,11 +12,11 @@ class NoteListViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
-    fileprivate var searchController = UISearchController(searchResultsController: nil)
-    fileprivate var noteModelController = NoteModelController()
-    fileprivate var noteSearchResults = [NoteModel]()
+    var searchController = UISearchController(searchResultsController: nil)
+    var noteModelController = NoteModelController()
+    var noteSearchResults = [NoteModel]()
     
-    fileprivate var searchBarIsActive: Bool {
+    var searchBarIsActive: Bool {
         return searchController.isActive &&
             !searchController.searchBar.text!.isEmpty
     }
@@ -77,6 +77,7 @@ class NoteListViewController: UIViewController {
 
 extension NoteListViewController: UITableViewDataSource {
     
+    // MARK: Table view data source functionality
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchBarIsActive {
             return noteSearchResults.count
@@ -88,18 +89,11 @@ extension NoteListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let note = getNoteAt(indexPath: indexPath)
         let cell = tableView.dequeueReusableCell(withIdentifier: "NoteCell") as! NoteTableViewCell
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .long
-        dateFormatter.timeStyle = .short
-        let dateString = dateFormatter.string(from: note.dateCreated)
-        
-        cell.dateLabel?.text = dateString
-        cell.noteTextLabel?.text = note.text
-        
+        cell.model = NoteTableViewCell.Model(note: note)
         return cell
     }
     
+    // MARK: Delete note functionality
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
@@ -114,6 +108,7 @@ extension NoteListViewController: UITableViewDataSource {
     }
 }
 
+// MARK: Search functionality
 extension NoteListViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {

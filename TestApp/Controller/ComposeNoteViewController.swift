@@ -55,6 +55,7 @@ class ComposeNoteViewController: UIViewController {
             noteModelController.update(existingNoteIndex, newText: textView.text)
         }
     }
+    
 }
 
 extension ComposeNoteViewController: UITextViewDelegate {
