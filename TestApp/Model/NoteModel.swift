@@ -26,9 +26,9 @@ struct NoteModel {
 
 extension NoteModel: Equatable {
     
+    // Consider 2 notes to be equal if they were created on the same date
     static func == (lhs: NoteModel, rhs: NoteModel) -> Bool {
         return
-            lhs.text == rhs.text &&
             lhs.dateCreated == rhs.dateCreated
     }
     

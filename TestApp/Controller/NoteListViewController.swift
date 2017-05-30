@@ -60,6 +60,9 @@ class NoteListViewController: UIViewController {
     }
     
     @IBAction func saveNote(_ segue: UIStoryboardSegue) {
+        if searchBarIsActive {
+            updateSearchResults(for: searchController)
+        }
         tableView.reloadData()
     }
     
