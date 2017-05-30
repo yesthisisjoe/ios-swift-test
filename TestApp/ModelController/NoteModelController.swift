@@ -112,7 +112,7 @@ class NoteModelController {
             
             return managedObjects[0]
         } catch let error as NSError {
-            print("Error retrieving . \(error), \(error.userInfo)")
+            print("Error retrieving managed object. \(error), \(error.userInfo)")
             return nil
         }
     }
