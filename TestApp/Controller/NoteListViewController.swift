@@ -16,7 +16,9 @@ class NoteListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 200
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
